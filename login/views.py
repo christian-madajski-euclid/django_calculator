@@ -35,17 +35,25 @@ def register(request):
 
 @csrf_exempt
 def check_register(request):
-    # check if email is already in use
-    try:
-        check_email = Login.objects.get(email=request.POST.get('email'))
-        messages.error(request, "ERROR: Cannot create new account. Email already exists in database!")
-    except Login.DoesNotExist:
-        new_user = Login(email=request.POST.get('email'), password=request.POST.get('password'))
-        new_user.save()
-        messages.success(request, f"SUCCESS: New user with email {request.POST.get('email')} has been created.")
-        return redirect('/')
-    else:
+    # check if email field is empty
+    if not request.POST.get('email'):
+        messages.error(request, "ERROR: No email was given!")
         return redirect('/register/')
+    elif not request.POST.get('password'):
+        messages.error(request, 'ERROR: No password was given!')
+        return redirect('/register/')
+    else:
+        # check if email is already in use
+        try:
+            check_email = Login.objects.get(email=request.POST.get('email'))
+            messages.error(request, "ERROR: Cannot create new account. Email already exists in database!")
+        except Login.DoesNotExist:
+            new_user = Login(email=request.POST.get('email'), password=request.POST.get('password'))
+            new_user.save()
+            messages.success(request, f"SUCCESS: New user with email {request.POST.get('email')} has been created.")
+            return redirect('/')
+        else:
+            return redirect('/register/')
 
 def logout(request):
     request.session.flush()
