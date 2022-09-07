@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+</head>
+<body>
+  <center>
+  <h3 style="font-size:32px;">Login</h3>
+  {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+            <p style="background-color:rgb(183, 2, 2);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+            {% elif message.tags == 'info' %}
+            <p style="background-color:rgb(0, 134, 152);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+            {% elif message.tags == 'success' %}
+            <p style="background-color:rgb(0, 152, 61);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+  <form action="/check_login/" method="post">
+      <table style="background-color: rgb(49, 49, 49);padding:10px;border-radius:10px;">
+        <tr>
+          <td style="color:white;font-size:24px;">Email:</td>
+          <td><input type="text" name="email" placeholder="Enter Email Here" style="font-size:24px;"></td>
+        </tr>
+        <tr>
+          <td style="color:white;font-size:24px;">Password:</td>
+          <td><input type="password" name="password" placeholder="Enter Password Here" style="font-size:24px;"></td>
+        </tr>
+        
+        <tr>
+           <td><input type="submit" name="submit" value="Login" style="padding:5px 10px;font-size:24px;"></td>
+           <td style="color:white;font-size:24px;"><p>No account? <a href="/register" style="text-decoration:none;color:cornflowerblue;">Register</a></p></td>
+        </tr>
+      </table>
+  </form>
+  </center>
+</body>
+</html>
