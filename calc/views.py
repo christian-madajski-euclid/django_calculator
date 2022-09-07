@@ -6,7 +6,6 @@ from login.models import Login
 from django.shortcuts import redirect
 from django.contrib import messages
 
-# Create your views here.
 @csrf_exempt
 def calc(request):
     if request.session.get('logged_in'):
@@ -38,102 +37,122 @@ def calc(request):
         return redirect('/')
     
 def add(request):
-    if request.method == 'GET':
-        try:
-            a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
-        except ValueError:
-            messages.error(request, "ERROR: Calculator requires int and float values only!")
-            return redirect('/calc/')
-        else:
+    if request.session.get('logged_in'):
+        if request.method == 'GET':
             try:
-                c = a_float + b_float
-            except OverflowError:
-                messages.error(request, "ERROR: Result too large for Python to handle!")
-                return redirect('/calc/')
-            else:
-                output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '+', 'result': str(c)}
-                
-                return render(request=request, template_name='calc.html', context=output_data)
-    else:
-        return redirect('/calc/')
-
-def sub(request):
-    if request.method == 'GET':
-        try:
-            a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
-        except ValueError:
-            messages.error(request, "ERROR: Calculator requires int and float values only!")
-            return redirect('/calc/')
-        else:
-            try:
-                c = a_float - b_float
-            except OverflowError:
-                messages.error(request, "ERROR: Result too large for Python to handle!")
-                return redirect('/calc/')
-            else:
-                output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '-', 'result': str(c)}
-                return render(request=request, template_name='calc.html', context=output_data)
-    else:
-        return redirect('/calc/')
-
-def mul(request):
-    if request.method == 'GET':
-        try:
-            a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
-        except ValueError:
-            messages.error(request, "ERROR: Calculator requires int and float values only!")
-            return redirect('/calc/')
-        else:
-            try:
-                c = a_float * b_float
-            except OverflowError:
-                messages.error(request, "ERROR: Result too large for Python to handle!")
-                return redirect('/calc/')
-            else:
-                output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '*', 'result': str(c)}
-                return render(request=request, template_name='calc.html', context=output_data)
-    else:
-        return redirect('/calc/')
-
-def div(request):
-    if request.method == 'GET':
-        try:
-            a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
-        except ValueError:
-            messages.error(request, "ERROR: Calculator requires int and float values only!")
-            return redirect('/calc/')
-        else:
-            # additional check to avoid ZeroDivisionError
-            if b_float == 0.0:
-                messages.error(request, "ERROR: Cannot divide by zero!")
+                a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
+            except ValueError:
+                messages.error(request, "ERROR: Calculator requires int and float values only!")
                 return redirect('/calc/')
             else:
                 try:
-                    c = a_float / b_float
+                    c = a_float + b_float
                 except OverflowError:
                     messages.error(request, "ERROR: Result too large for Python to handle!")
                     return redirect('/calc/')
                 else:
-                    output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '/', 'result': str(c)}
+                    output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '+', 'result': str(c)}
+                    
                     return render(request=request, template_name='calc.html', context=output_data)
-    else:
-        return redirect('/calc/')
-
-def exp(request):
-    if request.method == 'GET':
-        try:
-            a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
-        except ValueError:
-            messages.error(request, "ERROR: Calculator requires int and float values only!")
-            return redirect('/calc/')
         else:
+            return redirect('/calc/')
+    else:
+        messages.error(request, "ERROR: Must be logged in to use calculator!")
+        return redirect('/')
+
+def sub(request):
+    if request.session.get('logged_in'):
+        if request.method == 'GET':
             try:
-                c = a_float ** b_float
-            except OverflowError:
-                messages.error(request, "ERROR: Result too large for Python to handle!")
+                a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
+            except ValueError:
+                messages.error(request, "ERROR: Calculator requires int and float values only!")
                 return redirect('/calc/')
             else:
-                output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '**', 'result': str(c)}
-                return render(request=request, template_name='calc.html', context=output_data)
+                try:
+                    c = a_float - b_float
+                except OverflowError:
+                    messages.error(request, "ERROR: Result too large for Python to handle!")
+                    return redirect('/calc/')
+                else:
+                    output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '-', 'result': str(c)}
+                    return render(request=request, template_name='calc.html', context=output_data)
+        else:
+            return redirect('/calc/')
     else:
-        return redirect('/calc/')
+        messages.error(request, "ERROR: Must be logged in to use calculator!")
+        return redirect('/')
+
+def mul(request):
+    if request.session.get('logged_in'):
+        if request.method == 'GET':
+            try:
+                a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
+            except ValueError:
+                messages.error(request, "ERROR: Calculator requires int and float values only!")
+                return redirect('/calc/')
+            else:
+                try:
+                    c = a_float * b_float
+                except OverflowError:
+                    messages.error(request, "ERROR: Result too large for Python to handle!")
+                    return redirect('/calc/')
+                else:
+                    output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '*', 'result': str(c)}
+                    return render(request=request, template_name='calc.html', context=output_data)
+        else:
+            return redirect('/calc/')
+    else:
+        messages.error(request, "ERROR: Must be logged in to use calculator!")
+        return redirect('/')
+
+def div(request):
+    if request.session.get('logged_in'):
+        if request.method == 'GET':
+            try:
+                a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
+            except ValueError:
+                messages.error(request, "ERROR: Calculator requires int and float values only!")
+                return redirect('/calc/')
+            else:
+                # additional check to avoid ZeroDivisionError
+                if b_float == 0.0:
+                    messages.error(request, "ERROR: Cannot divide by zero!")
+                    return redirect('/calc/')
+                else:
+                    try:
+                        c = a_float / b_float
+                    except OverflowError:
+                        messages.error(request, "ERROR: Result too large for Python to handle!")
+                        return redirect('/calc/')
+                    else:
+                        output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '/', 'result': str(c)}
+                        return render(request=request, template_name='calc.html', context=output_data)
+        else:
+            return redirect('/calc/')
+    else:
+        messages.error(request, "ERROR: Must be logged in to use calculator!")
+        return redirect('/')
+
+def exp(request):
+    if request.session.get('logged_in'):
+        if request.method == 'GET':
+            try:
+                a_float, b_float = float(request.GET.get('a')), float(request.GET.get('b'))
+            except ValueError:
+                messages.error(request, "ERROR: Calculator requires int and float values only!")
+                return redirect('/calc/')
+            else:
+                try:
+                    c = a_float ** b_float
+                except OverflowError:
+                    messages.error(request, "ERROR: Result too large for Python to handle!")
+                    return redirect('/calc/')
+                else:
+                    output_data = {'a': str(a_float), 'b': str(b_float), 'operator': '**', 'result': str(c)}
+                    return render(request=request, template_name='calc.html', context=output_data)
+        else:
+            return redirect('/calc/')
+    else:
+        messages.error(request, "ERROR: Must be logged in to use calculator!")
+        return redirect('/')

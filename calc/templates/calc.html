@@ -5,47 +5,48 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 <body>
-    <h1 style="font-size:32px;">Calculator</h1>
-    {% if messages %}
-        {% for message in messages %}
-            {% if message.tags == 'error' %}
-            <p style="background-color:rgb(183, 2, 2);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
-            {% elif message.tags == 'info' %}
-            <p style="background-color:rgb(0, 134, 152);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
-            {% elif message.tags == 'success' %}
-            <p style="background-color:rgb(0, 152, 61);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
-            {% endif %}
-        {% endfor %}
-    {% endif %}
-    <form method="post" action="/calc/" id="calculator_form" style="background-color:rgb(49, 49, 49);padding:10px;width:fit-content;border-radius:10px;margin-bottom:10px;">
-        <label for="a" style="color:white;font-size:24px;">A:</label>
-        <input type="text" name="a" id="a" style="font-size:24px;margin-bottom:10px;">
-        <br/>
-        <label for="b" style="color:white;font-size:24px;">B:</label>
-        <input type="text" name="b" id="b" style="font-size:24px;margin-bottom:10px;">
-        <br/>
-        <label for="operation" style="font-size:24px;color:white;">Operation</label>
-        <select id="operation" name="operation" style="font-size:24px;margin-bottom:10px;">
-            <option value="+">Addition</option>
-            <option value="-">Subtraction</option>
-            <option value="/">Division</option>
-            <option value="*">Multiplication</option>
-            <option value="**">Exponential</option>
-        </select>
-        <br/>
-        <input type="submit" value="Submit" style="font-size:24px;padding:5px 10px;"/>
-        <input type="reset"  value="RESET" style="color: red;margin-bottom:10px;font-size:24px;padding:5px 10px;"/>
-        
-    </form>
-    <a href="/logout/">
-        <button style="font-size:24px;">Logout</button>
-      </a>
-    {% if result %}
-    <div>
-        <p id="answer" style="background-color:chartreuse;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ a }} {{ operator }} {{ b }} = {{ result }}</p>
+    <div style="background-color:rgb(49, 49, 49);">
+        <h1 style="font-size:32px;">Calculator</h1>
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                <p style="background-color:rgb(183, 2, 2);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+                {% elif message.tags == 'info' %}
+                <p style="background-color:rgb(0, 134, 152);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+                {% elif message.tags == 'success' %}
+                <p style="background-color:rgb(0, 152, 61);color:white;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ message }}</p>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+        <form method="post" action="/calc/" id="calculator_form" style="padding:10px;width:fit-content;border-radius:10px;margin-bottom:10px;">
+            <label for="a" style="color:white;font-size:24px;">A:</label>
+            <input type="text" name="a" id="a" style="font-size:24px;margin-bottom:10px;">
+            <br/>
+            <label for="b" style="color:white;font-size:24px;">B:</label>
+            <input type="text" name="b" id="b" style="font-size:24px;margin-bottom:10px;">
+            <br/>
+            <label for="operation" style="font-size:24px;color:white;">Operation</label>
+            <select id="operation" name="operation" style="font-size:24px;margin-bottom:10px;">
+                <option value="+">Addition</option>
+                <option value="-">Subtraction</option>
+                <option value="/">Division</option>
+                <option value="*">Multiplication</option>
+                <option value="**">Exponential</option>
+            </select>
+            <br/>
+            <input type="submit" value="Submit" style="font-size:24px;padding:5px 10px;"/>
+            <input type="reset"  value="RESET" style="color: red;margin-bottom:10px;font-size:24px;padding:5px 10px;"/>
+            
+        </form>
+        <a href="/logout/">
+            <button style="font-size:24px;">Logout</button>
+        </a>
+        {% if result %}
+        <div>
+            <p id="answer" style="background-color:chartreuse;padding:10px;width:fit-content;border-radius:5px;font-weight:700;font-size:24px;">{{ a }} {{ operator }} {{ b }} = {{ result }}</p>
+        </div>
+        {% endif %}
     </div>
-    {% endif %}
-
 
 </body>
 </html>
