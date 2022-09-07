@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login Page</title>
 </head>
-<body>
+<body style="font-family:sans-serif;">
   <center>
-  <div style="background-color:rgb(49, 49, 49);width:fit-content;margin:0 auto;border-radius: 10px;">
-    <h3 style="font-size:42px;color:white;padding-top:10px;">Login</h3>
+  <div style="background-color:rgb(49, 49, 49);width:600px;margin:0 auto;border-radius: 10px;">
+    <h3 style="font-size:42px;color:white;padding-top:20px;margin-bottom:10px;">Login</h3>
     {% if messages %}
           {% for message in messages %}
               {% if message.tags == 'error' %}
@@ -24,19 +24,22 @@
         <table style="padding:10px;border-radius:10px;">
           <tr>
             <td style="color:white;font-size:24px;">Email:</td>
-            <td><input type="text" name="email" placeholder="Enter Email Here" style="font-size:24px;"></td>
+            <td><input type="text" name="email" placeholder="Enter Email Here" style="font-size:24px;margin-bottom:10px;"></td>
           </tr>
           <tr>
             <td style="color:white;font-size:24px;">Password:</td>
-            <td><input type="password" name="password" placeholder="Enter Password Here" style="font-size:24px;"></td>
+            <td><input type="password" name="password" placeholder="Enter Password Here" style="font-size:24px;margin-bottom:10px;"></td>
           </tr>
           
           <tr>
-            <td ><input type="submit" name="submit" value="Login" style="padding:10px;font-size:24px;width:100%;"></td>
+            <td ><input type="submit" name="submit" value="Login" style="padding:10px;font-size:24px;width:100%;background-color:rgb(0, 211, 0);border-radius:5px;border:none;"></td>
+            <td><a href="/register/" style="background-color:rgb(210,210,210);padding:10px;text-decoration:none;font-size:24px;border-radius:5px;color:black;display:block;width:fit-content;margin-left:10px;">Register New User &rarr;</a></td>
           </tr>
         </table>
     </form>
-    <a href="/register/" style="background-color:cornflowerblue;padding:10px;text-decoration:none;font-size:24px;border-radius:5px;color:white;display:block;">Register</a>
+  </div>
+  <div>
+    <p>View the source code of this app on <a href="https://github.com/christian-madajski-euclid/django_calculator" target="_blank" style="text-decoration:none;">GitHub</a></p>
   </div>
   </center>
 </body>
